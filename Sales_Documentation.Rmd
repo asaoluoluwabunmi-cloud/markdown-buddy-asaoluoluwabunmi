@@ -1,0 +1,70 @@
+---
+title: "Synthetic Coffee Sales Script Documentation"
+output:
+  html_document:
+    toc: true
+    number_sections: false
+---
+
+AI Assistance Declaration: I used ChatGPT for documentation planning, Markdown drafting, illustrative R code examples and editing. Prompts used included: “Generate a professional README.md for a base-R script that imports and inspects synthetic coffee-sales data”; “Improve the R Markdown headings and code blocks”; and “Review the documentation for accuracy and readable Markdown.” The complete prompt record is in AI_Appendix.md. Assistant checks covered source comparison, file paths, column names and static Markdown conversion. Manual review, GitHub preview and RStudio knitting remain pending. No analytical calculations are included. I am responsible for the accuracy and originality of this work.
+
+# Purpose
+
+`inspect_sales.R` reads a fictional coffee-sales file into R and displays its structure and first rows. The purpose is to make an import workflow understandable and reproducible. This example does not analyse business performance or calculate financial measures.
+
+# Inputs
+
+The script reads `data/synthetic_sales.csv`, relative to the repository root. The input has a header and four columns: `sale_date`, `product`, `units` and `unit_price_cad`. All records are synthetic. Dates stay as character values at import; quantities and prices are intended to import as numeric fields.
+
+# Requirements
+
+Base R is sufficient to run the script. Rendering this document additionally needs `rmarkdown`, `knitr` and Pandoc. RStudio normally supplies Pandoc. Run the render command from the repository root so that the relative paths resolve correctly.
+
+# Script walkthrough
+
+## Import the data
+
+The following highlighted example explains the import line. It is displayed without execution to avoid duplicating the executable chunk below.
+
+```{r import-example, eval=FALSE}
+sales <- read.csv("data/synthetic_sales.csv", stringsAsFactors = FALSE)
+```
+
+`read.csv()` reads the local file. `stringsAsFactors = FALSE` keeps text as character values. The assignment places the imported table in `sales`.
+
+## Inspect the imported object
+
+```{r inspection-example, eval=FALSE}
+str(sales)
+head(sales)
+```
+
+`str()` displays the object structure and column types. `head()` displays the beginning of the table. These views help a reader notice obvious import problems, but they do not establish that every value is valid.
+
+## Run the single documented script
+
+This named executable chunk sources the supplied script once. When knitted in RStudio, its console output will appear beneath the chunk. No output is invented in the source document.
+
+```{r run-inspection, echo=TRUE}
+source("inspect_sales.R", local = knitr::knit_global())
+```
+
+# Outputs
+
+## Expected console display
+
+The display should identify `sales` as a data frame and show its four columns. Text fields should remain character values, `units` should import as an integer and `unit_price_cad` as numeric with the supplied CSV. `head()` should show the supplied records. These expectations are not substituted for an actual R run.
+
+## Files and objects
+
+The script creates `sales` in the knitting environment and prints its structure and first rows. It writes no output files. Knitting this document creates `Sales_Documentation.html` separately through the R Markdown rendering process.
+
+# Validation and limitations
+
+The assistant checked that the documented file paths and column names match the supplied files. The `.Rmd` has YAML metadata, a clear heading hierarchy and uniquely named R chunks. R was unavailable in the preparation environment, so the source has not been knitted or executed here. A Markdown-only preview cannot confirm code execution.
+
+Before submission, knit this document in RStudio or Posit Cloud and inspect the output. Confirm that the displayed data match the CSV, the code is highlighted and no file-path error appears. Do not claim that the script validates missing values, duplicates, impossible prices or date formats; those checks are outside its scope.
+
+# AI attribution
+
+ChatGPT drafted this explanation and the illustrative code examples on 23 November 2026. The exact model version is unavailable. The prompts and revisions are recorded in [AI_Appendix.md](AI_Appendix.md). A human review is still needed under the assignment rules.
